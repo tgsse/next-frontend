@@ -1,6 +1,6 @@
 import ProductList from '../components/product/ProductList'
 
-const products = [
+const dummyProducts = [
     {
         _id: '64f70470038d73079c037412',
         title: 'Best product everrrrr',
@@ -21,8 +21,32 @@ const products = [
     },
 ]
 
-export default function HomePage() {
+export default function HomePage(props) {
     return (
-        <ProductList products={products} />
+        <ProductList products={props.products}/>
     )
+}
+
+// export async function getServerSideProps(context) {
+//     // runs for every incoming request
+//     // use when data changes all the time, and when request data is needed
+//     const req = context.req
+//     const res = context.res
+//
+//     return {
+//         props: {
+//             products: dummyProducts,
+//         },
+//     }
+// }
+
+export async function getStaticProps() {
+    // runs once in the build process, and then every [revalidate] seconds
+    // faster than getServerSideProps
+    return {
+        props: {
+            products: dummyProducts,
+        },
+        revalidate: 10,
+    }
 }
